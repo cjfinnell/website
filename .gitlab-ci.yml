@@ -5,7 +5,8 @@ stages:
 
 variables:
   AWS_DEFAULT_REGION: us-east-2
-  BUCKET_NAME: connorfinnell-com-static-site
+  TEST_BUCKET_NAME: connorfinnell-com-static-site
+  LIVE_BUCKET_NAME: connorfinnell.com
 
 build_site:
   stage: build
@@ -16,18 +17,27 @@ build_site:
     paths:
       - _site/
 
-deploy_s3:
+deploy_s3_test:
+  stage: deploy
+  image: python:3.6-alpine
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 --version
+    - ls -al _site/
+    - aws s3 cp _site s3://${TEST_BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: http://${TEST_BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}
+
+deploy_s3_live:
   stage: deploy
   image: python:3.6-alpine
   only:
-    - dev
     - master
   before_script:
     - pip install awscli
   script:
     - aws s3 --version
     - ls -al _site/
-    - aws s3 cp _site s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}
-    url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}
+    - aws s3 cp _site s3://${LIVE_BUCKET_NAME} --recursive
