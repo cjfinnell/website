@@ -1,0 +1,42 @@
+image: alpine:latest
+stages:
+  - build
+  - deploy
+
+variables:
+  AWS_DEFAULT_REGION: us-east-2
+  BUCKET_NAME: connorfinnell-com-static-site
+
+build_site:
+  stage: build
+  script:
+    - mkdir _site/
+    - cp index.html _site/
+  artifacts:
+    paths:
+      - _site/
+
+deploy_s3:
+  stage: deploy
+  image: python:3.6-alpine
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 --version
+    - ls -al _site/
+    - aws s3 cp _site s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}
+
+clean_s3:
+  image: python:3.6-alpine
+  stage: deploy
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    action: stop
+  when: manual
