@@ -1,7 +1,7 @@
 image: alpine:latest
 stages:
   - build
-  - test
+  - review
   - deploy
 
 variables:
@@ -9,7 +9,7 @@ variables:
   LIVE_BUCKET_NAME: connorfinnell.com
   TEST_BUCKET_NAME: connorfinnell-com-static-site
 
-Build static site:
+build:
   stage: build
   script:
     - mkdir _site/
@@ -18,9 +18,11 @@ Build static site:
     paths:
       - _site/
 
-Upload to test s3:
-  stage: test
+deploy_review:
+  stage: review
   image: python:3.6-alpine
+  except:
+    - master
   before_script:
     - pip install awscli
   script:
@@ -30,8 +32,25 @@ Upload to test s3:
   environment:
     name: ${CI_COMMIT_REF_SLUG}
     url: http://${TEST_BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}
+    on_stop: stop_review
+    
+stop_review:
+  stage: review
+  variables:
+    GIT_STRATEGY: none
+  image: python:3.6-alpine
+  except:
+    - master
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 rm s3://${TEST_BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    action: stop
+  when: manual
 
-Deploy to live s3:
+deploy_live:
   stage: deploy
   image: python:3.6-alpine
   only:
@@ -42,16 +61,3 @@ Deploy to live s3:
     - aws s3 --version
     - ls -al _site/
     - aws s3 cp _site s3://${LIVE_BUCKET_NAME} --recursive
-  when: manual
-
-Clean test environment:
-  stage: deploy
-  image: python:3.6-alpine
-  before_script:
-    - pip install awscli
-  script:
-    - aws s3 rm s3://${TEST_BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
-  environment:
-    name: ${CI_COMMIT_REF_SLUG}
-    action: stop
-  when: manual
