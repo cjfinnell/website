@@ -5,10 +5,8 @@ stages:
 
 variables:
   AWS_DEFAULT_REGION: us-east-2
-  TEST_BUCKET_NAME: connorfinnell-com-static-site
   LIVE_BUCKET_NAME: connorfinnell.com
-  CF_DISTRIBUTION_ID: E3TMLUM90L915A
-  DOMAIN_NAME: connorfinnell.com
+  TEST_BUCKET_NAME: connorfinnell-com-static-site
 
 build_site:
   stage: build
@@ -43,18 +41,3 @@ deploy_s3_live:
     - aws s3 --version
     - ls -al _site/
     - aws s3 cp _site s3://${LIVE_BUCKET_NAME} --recursive
-
-refresh_certs:
-  stage: deploy
-  image: python:3.6-alpine
-  only:
-    - master
-  before_script:
-    - pip install certbot-s3front
-  script:
-    - certbot --agree-tos -a certbot-s3front:auth \
-      --certbot-s3front:auth-s3-bucket ${LIVE_BUCKET_NAME} \
-      --certbot-s3front:auth-s3-region ${AWS_DEFAULT_REGION}
-      -i certbot-s3front:installer \
-      --certbot-s3front:installer-cf-distribution-id ${CF_DISTRIBUTION_ID} \
-      -d ${DOMAIN_NAME} --renew-by-default --text
