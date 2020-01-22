@@ -16,6 +16,7 @@ build:
     - cp index.html _site/
     - cp -r assets/ _site/
     - cp -r images/ _site/
+    - cp resume.pdf _site/
   artifacts:
     paths:
       - _site/
