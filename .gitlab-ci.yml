@@ -17,6 +17,7 @@ build:
     - cp -r assets/ _site/
     - cp -r images/ _site/
     - cp resume.pdf _site/
+    - cp keybase.txt _site/
   artifacts:
     paths:
       - _site/
