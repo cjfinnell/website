@@ -1,0 +1,47 @@
+baseURL = "https://connorfinnell.com/"
+languageCode = "en-us"
+title = "Connor Finnell"
+theme = "pulp"
+
+[params]
+  author = "Connor Finnell"
+  avatar = "avatar.jpg"
+  favicon = "favicon.ico"
+  description = "Software &bull; Music &bull; Curiosity"
+  publicationYear = "2021"
+
+[[menu.main]]
+    identifier = "github"
+    pre = "<i class='fab fa-github fa-lg'></i>"
+    url = "https://github.com/cjfinnell"
+    weight = 20
+[[menu.main]]
+    identifier = "keybase"
+    pre = "<i class='fab fa-keybase fa-lg'></i>"
+    url = "https://keybase.io/cfin"
+    weight = 19
+[[menu.main]]
+    identifier = "linkedin"
+    pre = "<i class='fab fa-linkedin fa-lg'></i>"
+    url = "https://www.linkedin.com/in/cjfinnell/"
+    weight = 20
+[[menu.main]]
+    identifier = "instagram"
+    pre = "<i class='fab fa-instagram fa-lg'></i>"
+    url = "https://www.instagram.com/connorfinnell/"
+    weight = 30
+[[menu.main]]
+    identifier = "twitter"
+    pre = "<i class='fab fa-twitter fa-lg'></i>"
+    url = "https://twitter.com/@thecfin"
+    weight = 30
+[[menu.main]]
+    identifier = "email"
+    pre = "<i class='far fa-envelope-open fa-lg'></i>"
+    url = "mailto:contact@connorfinnell.com"
+    weight = 10
+[[menu.main]]
+    identifier = "resume"
+    pre = "<i class='far fa-file fa-lg'></i>"
+    url = "/resume.pdf"
+    weight = 11
