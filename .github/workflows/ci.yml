@@ -2,17 +2,26 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-      - name: populate public
-        run: mkdir public && mv assets/ images/ keybase.txt resume.pdf index.html public/
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: setup hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.82.0'
+
+      - name: build with hugo
+        run: hugo --minify
+
       - uses: jakejarvis/s3-sync-action@master
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
