@@ -20,11 +20,6 @@ disableKinds = ["taxonomy", "term"]
     { resume = { href = "/resume.pdf", text = "Resume" } },
   ]
 
-#Mountains by Nasik Lababan from NounProject.com
-
-
-
-
 [markup.highlight]
   noClasses = false
 
