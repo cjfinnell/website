@@ -20,6 +20,8 @@ jobs:
       - name: build with hugo
         run: hugo --minify
 
+      - run: cp -R assets/ public/
+
       - uses: jakejarvis/s3-sync-action@master
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
