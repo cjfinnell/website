@@ -18,7 +18,7 @@ jobs:
           hugo-version: '0.101.0'
 
       - name: build with hugo
-        run: hugo --minify
+        run: hugo
 
       - uses: jakejarvis/s3-sync-action@master
         if: ${{ github.ref == 'refs/heads/main' }}
