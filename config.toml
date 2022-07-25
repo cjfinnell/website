@@ -1,47 +1,33 @@
 baseURL = "https://connorfinnell.com/"
 languageCode = "en-us"
 title = "Connor Finnell"
-theme = "pulp"
+theme = "lynx"
+enableEmoji = true
+disableKinds = ["taxonomy", "term"]
 
-[params]
-  author = "Connor Finnell"
-  avatar = "avatar.jpg"
+[author]
   favicon = "favicon.ico"
-  description = "Software &bull; Music &bull; Curiosity"
-  publicationYear = "2021"
+  name = "Connor Finnell"
+  headline = "Software &bull; Music &bull; Curiosity"
+  image = "https://gravatar.com/avatar/d351ab7da92ecda1d399f158c8b50cd5?s=2048"
+  links = [
+    { github = "https://github.com/cjfinnell" },
+    { keybase = "https://keybase.io/cfin" },
+    { linkedin = "https://www.linkedin.com/in/cjfinnell/" },
+    { instagram = "https://www.instagram.com/connorfinnell/" },
+    { twitter = "https://twitter.com/@thecfin" },
+    { email = "mailto:contact@connorfinnell.com" },
+    { resume = { href = "/resume.pdf", text = "Resume" } },
+  ]
 
-[[menu.main]]
-    identifier = "github"
-    pre = "<i class='fab fa-github fa-lg'></i>"
-    url = "https://github.com/cjfinnell"
-    weight = 20
-[[menu.main]]
-    identifier = "keybase"
-    pre = "<i class='fab fa-keybase fa-lg'></i>"
-    url = "https://keybase.io/cfin"
-    weight = 19
-[[menu.main]]
-    identifier = "linkedin"
-    pre = "<i class='fab fa-linkedin fa-lg'></i>"
-    url = "https://www.linkedin.com/in/cjfinnell/"
-    weight = 20
-[[menu.main]]
-    identifier = "instagram"
-    pre = "<i class='fab fa-instagram fa-lg'></i>"
-    url = "https://www.instagram.com/connorfinnell/"
-    weight = 30
-[[menu.main]]
-    identifier = "twitter"
-    pre = "<i class='fab fa-twitter fa-lg'></i>"
-    url = "https://twitter.com/@thecfin"
-    weight = 30
-[[menu.main]]
-    identifier = "email"
-    pre = "<i class='far fa-envelope-open fa-lg'></i>"
-    url = "mailto:contact@connorfinnell.com"
-    weight = 10
-[[menu.main]]
-    identifier = "resume"
-    pre = "<i class='far fa-file fa-lg'></i>"
-    url = "/resume.pdf"
-    weight = 11
+#Mountains by Nasik Lababan from NounProject.com
+
+
+
+
+[markup.highlight]
+  noClasses = false
+
+[markup.goldmark]
+[markup.goldmark.renderer]
+  unsafe = true
